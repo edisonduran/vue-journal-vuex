@@ -1,9 +1,10 @@
 <template>
   <div class="d-flex justify-content-center">
-    <h1 class="align-self-center">No hay nada seleccionado</h1>
-    
+    <h1 class="align-self-center">No hay nada seleccionado</h1>    
   </div>
-  <FabAction />
+  <FabAction 
+    @on:click="createNewEntry"
+  />
 </template>
 
 <script>
@@ -15,7 +16,14 @@ export default {
 
   components: {
     FabAction: defineAsyncComponent( () => import('../components/FabAction.vue') )     
-  }  
+  },
+
+  methods: {
+    createNewEntry() {
+      console.log( 'New Netry' )
+      this.$router.push( { name: 'entry', params: { id: 'new' } } )
+    }
+  }
 
 }
 </script>

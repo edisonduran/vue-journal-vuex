@@ -1,14 +1,32 @@
 <template>
     <div class="entry-list-container">
         <div class="px-2 pt-2">
-            <input type="text" name="" id="" class="form-control" placeholder="Buscar Entrada">            
+            <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Buscar Entrada"
+                v-model="term"
+                />            
         </div>
-        <div class="entry-scrollarea">
-            <h2
-                v-for="item in 100"
-                :key="item"
+
+        <div class="mt-2 d-flex flex-column">
+            <button class="btn btn-primary mx-3"
+                    @click="$router.push( { name: 'entry', params: { id: 'new' } } )"
             >
-            <EntryValue /></h2>
+                <i class="fa fa-plus-circle"></i>
+                Nueva Entrada
+            </button>
+
+
+        </div>
+
+        <div class="entry-scrollarea">
+            <EntryValue
+                v-for="entry in entriesByTerm"
+                :key="entry.id"
+                :entry="entry"
+            />
+            
         </div>
 
     </div>
@@ -16,11 +34,26 @@
 
 <script>
 import {defineAsyncComponent} from 'vue'
-
+import { mapGetters } from 'vuex'
 export default {
     components: {
         EntryValue: defineAsyncComponent(() => import('./EntryValue.vue'))        
+    },
+    computed: {
+        ...mapGetters('journalModule', ['getEntriesByTerm']),
+        entriesByTerm() {
+             return this.getEntriesByTerm( this.term )
+        }
+
+    },
+    data() {
+
+        return {
+            term: ''
+        }
     }
+
+   
 
 }
 </script>
